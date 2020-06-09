@@ -28,7 +28,9 @@ this_cxxflags += -fstrict-aliasing # in order to comply with the c++ standard mo
 this_cxxflags += -std=c++14
 this_cxxflags += -g
 
-this_ldlibs += -lcurl -lstdc++
+this_cxxflags += -I$(d)../curl-7.70.0/include
+
+this_ldlibs += $(d)../curl-7.70.0/lib/.libs/libcurl.a -lgnutls -lz -lstdc++
 
 ifeq ($(os),linux)
     this_cxxflags += -fPIC # Since we are building shared library, we need Position-Independend Code
