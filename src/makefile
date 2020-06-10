@@ -30,7 +30,7 @@ this_cxxflags += -g
 
 this_cxxflags += -I$(d)../curl-7.70.0/include
 
-this_ldlibs += $(d)../curl-7.70.0/lib/.libs/libcurl.a -lgnutls -lz -lstdc++
+this_ldlibs += $(d)../curl-7.70.0/lib/.libs/libcurl.a -lgnutls -lz -lnitki -lstdc++
 
 ifeq ($(os),linux)
     this_cxxflags += -fPIC # Since we are building shared library, we need Position-Independend Code
@@ -40,3 +40,15 @@ else ifeq ($(os),macosx)
 endif
 
 $(eval $(prorab-build-lib))
+
+this_libcurl_a := $(abspath $(d)../curl-7.70.0/lib/.libs/libcurl.a)
+
+# add dependency on libcurl.a
+$(prorab_this_name): $(this_libcurl_a)
+
+define this_rules
+$(this_libcurl_a):
+$(.RECIPEPREFIX)$(a)(cd $(d)../curl-7.70.0 && ./configure --with-gnutls)
+$(.RECIPEPREFIX)$(a)$(MAKE) -C $(d)../curl-7.70.0
+endef
+$(eval $(this_rules))

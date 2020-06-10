@@ -18,7 +18,7 @@ endif
 
 this_srcs += $(call prorab-src-dir, .)
 
-this_ldlibs += -leasyhttp -lstdc++
+this_ldlibs += -leasyhttp -lnitki -lstdc++
 this_ldflags += -L$(d)../../src/build
 
 ifeq ($(os), linux)
