@@ -40,6 +40,7 @@ else ifeq ($(os),windows)
     this_ldlibs += -lcurl
 else ifeq ($(os),macosx)
     this_cxxflags += -stdlib=libc++ # this is needed to be able to use c++11 std lib
+    this_cxxflags += -I$(d)../curl-7.70.0/include
     this_ldlibs += $(this_libcurl_a)
 endif
 
@@ -52,7 +53,7 @@ $(prorab_this_name): $(this_libcurl_a)
 
 define this_rules
 $(this_libcurl_a):
-$(.RECIPEPREFIX)$(a)(cd $(d)../curl-7.70.0 && ./configure --with-gnutls)
+$(.RECIPEPREFIX)$(a)(cd $(d)../curl-7.70.0 && ./configure --with-gnutls --without-libidn2)
 $(.RECIPEPREFIX)$(a)$(MAKE) -C $(d)../curl-7.70.0
 endef
 $(eval $(this_rules))
