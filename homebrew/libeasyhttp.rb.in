@@ -1,0 +1,21 @@
+class Libcssdom < Formula
+  desc "C++ cross-platform HTTP client library."
+  homepage "https://github.com/igagis/easyhttp"
+  url "https://github.com/igagis/easyhttp/archive/$(version).tar.gz"
+  sha256 "$(sha256)"
+
+  depends_on "prorab" => :build
+  depends_on "prorab-extra" => :build
+  depends_on "myci" => :build
+  depends_on "pkg-config" => :build
+  depends_on "libutki"
+
+  def install
+    ENV['PATH'] += ':/usr/local/bin'
+    system "make", "install", "PREFIX=#{prefix}"
+  end
+
+  test do
+    system "make", "test"
+  end
+end

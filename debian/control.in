@@ -1,0 +1,36 @@
+Source: libeasyhttp
+Section: libs
+Priority: extra
+Maintainer: Ivan Gagis <igagis@gmail.com>
+Build-Depends: debhelper (>= 9), prorab, prorab-extra, myci,
+		libc6-dev, libutki-dev
+Build-Depends-Indep: doxygen
+Standards-Version: 3.9.2
+
+Package: libeasyhttp$(soname)
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: cross-platform HTTP client library in C++.
+ Cross-platform HTTP/HTTPS client library in C++. Mainly, this is a wrapper above libcurl.
+
+Package: libeasyhttp$(soname)-dbg
+Section: debug
+Architecture: any
+Depends: libeasyhttp$(soname) (= ${binary:Version}), ${misc:Depends}
+Description: debugging symbols for libeasyhttp$(soname) package.
+
+Package: libeasyhttp-dev
+Section: libdevel
+Architecture: any
+Depends: libeasyhttp$(soname) (= ${binary:Version}), libeasyhttp$(soname)-dbg (= ${binary:Version}), ${misc:Depends}
+Suggests: libeasyhttp-doc
+Description: cross-platform HTTP client library in C++, development files.
+ Development files for libeasyhttp$(soname).
+
+Package: libeasyhttp-doc
+Section: doc
+Architecture: all
+Depends: ${misc:Depends}
+Description: documentation for libeasyhttp-dev package.
+ For more details see description to libeasyhttp-dev package.
