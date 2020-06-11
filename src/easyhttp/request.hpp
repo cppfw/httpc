@@ -6,6 +6,8 @@
 
 #include <curl/curl.h>
 
+#include <utki/span.hpp>
+
 #include "http_code.hpp"
 
 namespace easyhttp{
@@ -40,14 +42,21 @@ class request : public std::enable_shared_from_this<request>{
 
 	response resp;
 
-	std::function<void(const response&)> completed_handler;
+	std::function<void(request&)> completed_handler;
 
+	std::function<size_t(utki::span<const uint8_t>)> data_handler;
+
+	static size_t write_data(void *buffer, size_t size, size_t nmemb, void *userp);
 public:
-	request(std::function<void(const response&)>&& ch);
+	request(decltype(completed_handler)&& ch);
 
 	~request()noexcept;
 
 	void start();
+
+	response& get_response(){
+		return this->resp;
+	}
 
 	/**
 	 * @brief Cancel active request.
@@ -59,6 +68,8 @@ public:
 	void set_method(method m);
 
 	void set_url(const std::string& url);
+
+	void set_data_handler(decltype(data_handler)&& handler);
 };
 
 }

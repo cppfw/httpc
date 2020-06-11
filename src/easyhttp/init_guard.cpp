@@ -46,7 +46,7 @@ void init_guard::handle_completed_request(const CURLMsg& m){
 			r->resp.response_code = http_code(response_code);
 
 			if(r->completed_handler){
-				r->completed_handler(r->resp);
+				r->completed_handler(*r);
 			}
 			break;
 		}
