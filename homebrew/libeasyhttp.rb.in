@@ -9,6 +9,7 @@ class Libcssdom < Formula
   depends_on "myci" => :build
   depends_on "pkg-config" => :build
   depends_on "libutki"
+  depends_on "libnitki"
 
   def install
     ENV['PATH'] += ':/usr/local/bin'

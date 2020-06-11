@@ -24,12 +24,12 @@ pkgver=$(version)
 pkgrel=1
 epoch=
 pkgdesc="HTTP client library in C++"
-#arch=('any') #defined above
+#arch=('any') # defined above
 url="http://github.com/igagis/${packageName}"
 license=('MIT')
 groups=()
 
-depends=("${pkgPrefix}utki")
+depends=("${pkgPrefix}utki" "${pkgPrefix}nitki")
 
 makedepends=('myci' 'prorab' 'prorab-extra' 'doxygen')
 checkdepends=('myci')
