@@ -40,6 +40,11 @@ void init_guard::handle_completed_request(const CURLMsg& m){
 			handle_to_request_map.erase(i);
 			r->is_idle = true;
 			r->resp.status = curlcode_to_status(m.data.result);
+
+			long response_code;
+    		curl_easy_getinfo(r->handle, CURLINFO_RESPONSE_CODE, &response_code);
+			r->resp.response_code = http_code(response_code);
+
 			if(r->completed_handler){
 				r->completed_handler(r->resp);
 			}
@@ -49,7 +54,6 @@ void init_guard::handle_completed_request(const CURLMsg& m){
 			ASSERT_INFO(false, "m.msg = " << m.msg)
 			break;
 	}
-	// TODO:
 }
 
 void init_guard::thread_func(){
@@ -77,8 +81,6 @@ void init_guard::thread_func(){
 		if(timeout < 0){ // no set timeout, use default
 			timeout = 1000;
 		}
-
-		TRACE(<< "polling" << std::endl)
 
       	CURLMcode rc = curl_multi_poll(multi_handle, NULL, 0, timeout, nullptr);
  

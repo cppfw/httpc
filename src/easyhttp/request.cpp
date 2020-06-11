@@ -12,12 +12,11 @@ request::request(std::function<void(const response&)>&& ch) :
 }
 
 request::~request()noexcept{
-	this->cancel();
 	ASSERT(this->is_idle)
 	curl_easy_cleanup(this->handle);
 }
 
-void request::run(){
+void request::start(){
 	if(!this->is_idle){
 		throw std::logic_error("request is already running");
 	}

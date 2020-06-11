@@ -6,6 +6,8 @@
 
 #include <curl/curl.h>
 
+#include "http_code.hpp"
+
 namespace easyhttp{
 
 enum class method{
@@ -25,6 +27,7 @@ enum class status_code{
 
 struct response{
 	status_code status;
+	http_code response_code;
 	std::vector<uint8_t> body;
 };
 
@@ -44,7 +47,7 @@ public:
 
 	~request()noexcept;
 
-	void run();
+	void start();
 
 	/**
 	 * @brief Cancel active request.

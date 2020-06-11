@@ -15,7 +15,7 @@ int main(int argc, char** argv){
 
 		r->set_url("http://izdelie.icu");
 
-		r->run();
+		r->start();
 
 		completed.wait();
 	}
