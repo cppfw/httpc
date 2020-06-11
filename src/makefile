@@ -28,20 +28,24 @@ this_cxxflags += -fstrict-aliasing # in order to comply with the c++ standard mo
 this_cxxflags += -std=c++14
 this_cxxflags += -g
 
-this_cxxflags += -I$(d)../curl-7.70.0/include
-
-this_ldlibs += $(d)../curl-7.70.0/lib/.libs/libcurl.a -lgnutls -lz -lnitki -lstdc++
+this_ldlibs += -lnitki -lstdc++
 
 ifeq ($(os),linux)
     this_cxxflags += -fPIC # Since we are building shared library, we need Position-Independend Code
+    this_cxxflags += -I$(d)../curl-7.70.0/include
+    this_ldlibs += $(d)../curl-7.70.0/lib/.libs/libcurl.a -lgnutls -lz
 else ifeq ($(os),windows)
+    this_ldlibs += -lcurl
 else ifeq ($(os),macosx)
-    this_cxxflags += -stdlib=libc++ #this is needed to be able to use c++11 std lib
+    this_cxxflags += -stdlib=libc++ # this is needed to be able to use c++11 std lib
+    this_ldlibs += -lcurl
 endif
 
 $(eval $(prorab-build-lib))
 
 this_libcurl_a := $(abspath $(d)../curl-7.70.0/lib/.libs/libcurl.a)
+
+ifeq ($(os),linux)
 
 # add dependency on libcurl.a
 $(prorab_this_name): $(this_libcurl_a)
@@ -52,3 +56,5 @@ $(.RECIPEPREFIX)$(a)(cd $(d)../curl-7.70.0 && ./configure --with-gnutls)
 $(.RECIPEPREFIX)$(a)$(MAKE) -C $(d)../curl-7.70.0
 endef
 $(eval $(this_rules))
+
+endif
