@@ -45,7 +45,7 @@ $(eval $(prorab-build-lib))
 
 this_libcurl_a := $(abspath $(d)../curl-7.70.0/lib/.libs/libcurl.a)
 
-ifeq ($(os),linux)
+ifneq ($(filter $(os),linux)$(filter $(os),macosx),)
 
 # add dependency on libcurl.a
 $(prorab_this_name): $(this_libcurl_a)
@@ -54,6 +54,9 @@ define this_rules
 $(this_libcurl_a):
 $(.RECIPEPREFIX)$(a)(cd $(d)../curl-7.70.0 && ./configure --with-gnutls)
 $(.RECIPEPREFIX)$(a)$(MAKE) -C $(d)../curl-7.70.0
+
+clean::
+$(.RECIPEPREFIX)$(a)$(MAKE) -C $(d)../curl-7.70.0 clean
 endef
 $(eval $(this_rules))
 

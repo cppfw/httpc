@@ -82,7 +82,7 @@ void init_guard::thread_func(){
 			timeout = 1000;
 		}
 
-      	CURLMcode rc = curl_multi_poll(multi_handle, NULL, 0, timeout, nullptr);
+      	CURLMcode rc = curl_multi_poll(multi_handle, nullptr, 0, timeout, nullptr);
  
 		if(rc != CURLM_OK){
 			TRACE_ALWAYS(<< "curl_multi_poll() failed, terminating easyhttp thread" << std::endl)
