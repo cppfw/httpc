@@ -18,6 +18,8 @@ endif
 
 this_srcs += $(call prorab-src-dir, .)
 
+this_cxxflags += -I$(d)../curl-7.70.0/include
+
 this_ldlibs += -leasyhttp -lnitki -lstdc++
 this_ldflags += -L$(d)../../src/build
 
