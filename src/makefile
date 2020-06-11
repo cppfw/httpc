@@ -41,7 +41,7 @@ else ifeq ($(os),windows)
 else ifeq ($(os),macosx)
     this_cxxflags += -stdlib=libc++ # this is needed to be able to use c++11 std lib
     this_cxxflags += -I$(d)../curl-7.70.0/include
-    this_ldlibs += $(this_libcurl_a)
+    this_ldlibs += $(this_libcurl_a) -lgnutls -lz
 endif
 
 $(eval $(prorab-build-lib))
