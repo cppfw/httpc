@@ -30,20 +30,20 @@ this_cxxflags += -g
 
 this_ldlibs += -lnitki -lstdc++
 
+this_libcurl_a := $(abspath $(d)../curl-7.70.0/lib/.libs/libcurl.a)
+
 ifeq ($(os),linux)
     this_cxxflags += -fPIC # Since we are building shared library, we need Position-Independend Code
     this_cxxflags += -I$(d)../curl-7.70.0/include
-    this_ldlibs += $(d)../curl-7.70.0/lib/.libs/libcurl.a -lgnutls -lz
+    this_ldlibs += $(this_libcurl_a) -lgnutls -lz
 else ifeq ($(os),windows)
     this_ldlibs += -lcurl
 else ifeq ($(os),macosx)
     this_cxxflags += -stdlib=libc++ # this is needed to be able to use c++11 std lib
-    this_ldlibs += -lcurl
+    this_ldlibs += $(this_libcurl_a)
 endif
 
 $(eval $(prorab-build-lib))
-
-this_libcurl_a := $(abspath $(d)../curl-7.70.0/lib/.libs/libcurl.a)
 
 ifneq ($(filter $(os),linux)$(filter $(os),macosx),)
 
@@ -54,9 +54,6 @@ define this_rules
 $(this_libcurl_a):
 $(.RECIPEPREFIX)$(a)(cd $(d)../curl-7.70.0 && ./configure --with-gnutls)
 $(.RECIPEPREFIX)$(a)$(MAKE) -C $(d)../curl-7.70.0
-
-clean::
-$(.RECIPEPREFIX)$(a)$(MAKE) -C $(d)../curl-7.70.0 clean
 endef
 $(eval $(this_rules))
 
