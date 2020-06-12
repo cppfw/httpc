@@ -1,4 +1,4 @@
-class Libcssdom < Formula
+class Libeasyhttp < Formula
   desc "C++ cross-platform HTTP client library."
   homepage "https://github.com/igagis/easyhttp"
   url "https://github.com/igagis/easyhttp/archive/$(version).tar.gz"
