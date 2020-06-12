@@ -33,6 +33,11 @@ struct response{
 	std::vector<uint8_t> body;
 };
 
+/**
+ * @brief HTTP request.
+ * The lifespan of all request objects must be limited by lifespan of init_guard singleton.
+ * Otherwise the behavior is undefined.
+ */
 class request : public std::enable_shared_from_this<request>{
 	friend class init_guard;
 
@@ -61,7 +66,7 @@ public:
 	/**
 	 * @brief Cancel active request.
 	 * @return true if request was cancelled and no completed callback was called.
-	 * @return false in case the request has completed befere cancelling.
+	 * @return false in case the request has completed befere cancelling or was not active at all.
 	 */
 	bool cancel()noexcept;
 

@@ -5,6 +5,7 @@
 
 #include <curl/curl.h>
 #include <nitki/queue.hpp>
+#include <nitki/semaphore.hpp>
 
 using namespace easyhttp;
 
@@ -102,6 +103,30 @@ void init_guard::start_request(std::shared_ptr<request> r){
 		handle_to_request_map.insert(std::make_pair(r->handle, std::move(r)));
 	});
 	curl_multi_wakeup(multi_handle);
+}
+
+bool init_guard::cancel_request(request& r){
+	// TRACE(<< "cancelling request..." << std::endl)
+	nitki::semaphore sema;
+	bool ret;
+	queue.push_back([&r, &sema, &ret](){
+		auto i = handle_to_request_map.find(r.handle);
+		if(i == handle_to_request_map.end()){
+			// TRACE(<< "request is not active" << std::endl)
+			ret = false;
+		}else{
+			curl_multi_remove_handle(multi_handle, r.handle);
+			handle_to_request_map.erase(i);
+			r.is_idle = true;
+			ret = true;
+			// TRACE(<< "request removed from handling" << std::endl)
+		}
+		sema.signal();
+	});
+	curl_multi_wakeup(multi_handle);
+	sema.wait();
+	// TRACE(<< "request cancelled..." << std::endl)
+	return ret;
 }
 
 init_guard::init_guard(bool init_winsock){

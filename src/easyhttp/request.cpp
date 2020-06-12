@@ -44,8 +44,7 @@ void request::start(){
 }
 
 bool request::cancel()noexcept{
-	// TODO:
-	return false;
+	return init_guard::inst().cancel_request(*this);
 }
 
 void request::set_url(const std::string& url){

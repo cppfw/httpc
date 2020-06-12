@@ -10,6 +10,7 @@ class init_guard : public utki::singleton<init_guard>{
 	friend class request;
 	
 	void start_request(std::shared_ptr<request> r);
+	bool cancel_request(request& r);
 
 	static void thread_func();
 	static void handle_completed_request(const CURLMsg& m);
