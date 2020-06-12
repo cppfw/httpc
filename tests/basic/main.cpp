@@ -50,15 +50,16 @@ int main(int argc, char** argv){
 
 		bool completed = false;
 
-		auto r = std::make_shared<easyhttp::request>([&completed](easyhttp::request& req){
+		nitki::semaphore sema;
+
+		auto r = std::make_shared<easyhttp::request>([&completed, &sema](easyhttp::request& req){
 			completed = true;
 			auto r = req.get_response();
-			TRACE(<< "HTTP request completed, status = " << unsigned(r.status) << ", code = " << unsigned(r.response_code) << std::endl)
+			TRACE_ALWAYS(<< "HTTP request completed, status = " << unsigned(r.status) << ", code = " << unsigned(r.response_code) << std::endl)
+			sema.signal();
 		});
 
 		r->set_url("https://speed.hetzner.de/1GB.bin");
-
-		nitki::semaphore sema;
 
 		bool sema_signalled = false;
 
