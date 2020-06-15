@@ -3,6 +3,7 @@
 #include <memory>
 #include <functional>
 #include <vector>
+#include <map>
 
 #include <curl/curl.h>
 
@@ -42,6 +43,7 @@ class request : public std::enable_shared_from_this<request>{
 	friend class init_guard;
 
 	CURL* handle;
+	curl_slist* headers = nullptr;
 
 	volatile bool is_idle = true;
 
@@ -52,6 +54,8 @@ class request : public std::enable_shared_from_this<request>{
 	std::function<size_t(utki::span<const uint8_t>)> data_handler;
 
 	static size_t write_data(void *buffer, size_t size, size_t nmemb, void *userp);
+
+	void free_headers()noexcept;
 public:
 	request(decltype(completed_handler)&& ch);
 
@@ -75,6 +79,8 @@ public:
 	void set_url(const std::string& url);
 
 	void set_data_handler(decltype(data_handler)&& handler);
+
+	void set_headers(const std::map<std::string, std::string>& name_value, utki::span<const std::string> name = utki::span<const std::string>());
 };
 
 }

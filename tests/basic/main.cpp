@@ -91,5 +91,42 @@ int main(int argc, char** argv){
 		TRACE_ALWAYS(<< "cancel test completed" << std::endl)
 	}
 
+	// test set_headers()
+	{
+		nitki::semaphore completed;
+
+		easyhttp::init_guard easyhttp_guard;
+
+		std::vector<uint8_t> data;
+
+		auto r = std::make_shared<easyhttp::request>([&completed, &data](easyhttp::request& r){
+			ASSERT_INFO_ALWAYS(r.get_response().status == easyhttp::status_code::ok, "status code is not OK: " << unsigned(r.get_response().status))
+			ASSERT_INFO_ALWAYS(r.get_response().response_code == easyhttp::http_code::ok, "http code is not OK: " << unsigned(r.get_response().response_code))
+			data = std::move(r.get_response().body);
+			completed.signal();
+		});
+
+		r->set_url("https://postman-echo.com/headers");
+
+		std::string custom_header_value = "Lorem ipsum dolor sit amet";
+
+		r->set_headers({
+				{"my-sample-header", custom_header_value},
+				{"Accept", "application/json"},
+				{"Content-Type", "application/json"}
+			});
+
+		r->start();
+
+		completed.wait();
+
+		auto resp_str = utki::make_string(data);
+
+		ASSERT_INFO_ALWAYS(resp_str.find(custom_header_value) != std::string::npos, "expected string not found in response body: " << resp_str)
+
+		TRACE(<< "body.size() = " << data.size() << std::endl)
+		TRACE(<< resp_str << std::endl)
+	}
+
 	return 0;
 }
