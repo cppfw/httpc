@@ -81,13 +81,19 @@ void request::set_headers(const std::map<std::string, std::string>& name_value, 
 		if(!nv.second.empty()){
 			ss << " " << nv.second;
 		}
-		this->headers = curl_slist_append(this->headers, ss.str().c_str());
+		auto res = curl_slist_append(this->headers, ss.str().c_str());
+		if(res){
+			this->headers = res;
+		}
 	}
 
 	for(auto& n : name){
 		std::stringstream ss;
 		ss << n << ";";
-		this->headers = curl_slist_append(this->headers, ss.str().c_str());
+		auto res = curl_slist_append(this->headers, ss.str().c_str());
+		if(res){
+			this->headers = res;
+		}
 	}
 
 	curl_easy_setopt(this->handle, CURLOPT_HTTPHEADER, this->headers);
