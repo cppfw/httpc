@@ -29,7 +29,8 @@ status_code curlcode_to_status(CURLcode code){
 }
 }
 
-void init_guard::handle_completed_request(const CURLMsg& m){
+void init_guard::handle_completed_request(const void* message){
+	const CURLMsg& m = *reinterpret_cast<const CURLMsg*>(message);
 	switch(m.msg){
 		case CURLMSG_DONE:
 		{
@@ -72,7 +73,7 @@ void init_guard::thread_func(){
 			int num_messages_left;
 			msg = curl_multi_info_read(multi_handle, &num_messages_left);
 			if(msg){
-				init_guard::handle_completed_request(*msg);
+				init_guard::handle_completed_request(msg);
 			}
 		}while(msg);
 

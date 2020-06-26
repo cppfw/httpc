@@ -5,8 +5,6 @@
 #include <vector>
 #include <map>
 
-#include <curl/curl.h>
-
 #include <utki/span.hpp>
 
 #include "http_code.hpp"
@@ -42,8 +40,8 @@ struct response{
 class request : public std::enable_shared_from_this<request>{
 	friend class init_guard;
 
-	CURL* handle;
-	curl_slist* headers = nullptr;
+	void* handle; // CURL
+	void* headers = nullptr; // curl_slist
 
 	volatile bool is_idle = true;
 

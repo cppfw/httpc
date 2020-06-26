@@ -13,7 +13,7 @@ class init_guard : public utki::singleton<init_guard>{
 	bool cancel_request(request& r);
 
 	static void thread_func();
-	static void handle_completed_request(const CURLMsg& m);
+	static void handle_completed_request(const void* message); // CURLMsg
 public:
 	init_guard(bool init_winsock = true);
 	~init_guard()noexcept;

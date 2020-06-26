@@ -56,6 +56,7 @@ int main(int argc, char** argv){
 			completed = true;
 			auto r = req.get_response();
 			TRACE_ALWAYS(<< "HTTP request completed, status = " << unsigned(r.status) << ", code = " << unsigned(r.response_code) << std::endl)
+			ASSERT_ALWAYS(r.status == easyhttp::status_code::ok)
 			sema.signal();
 		});
 

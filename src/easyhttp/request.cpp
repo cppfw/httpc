@@ -2,6 +2,8 @@
 
 #include "init_guard.hpp"
 
+#include <curl/curl.h>
+
 using namespace easyhttp;
 
 size_t request::write_data(void *buffer, size_t size, size_t nmemb, void *userp){
@@ -65,7 +67,7 @@ void request::set_data_handler(decltype(data_handler)&& handler){
 void request::free_headers()noexcept{
 	ASSERT(this->is_idle)
 	if(this->headers){
-		curl_slist_free_all(this->headers);
+		curl_slist_free_all(reinterpret_cast<curl_slist*>(this->headers));
 	}
 }
 
@@ -81,7 +83,7 @@ void request::set_headers(const std::map<std::string, std::string>& name_value, 
 		if(!nv.second.empty()){
 			ss << " " << nv.second;
 		}
-		auto res = curl_slist_append(this->headers, ss.str().c_str());
+		auto res = curl_slist_append(reinterpret_cast<curl_slist*>(this->headers), ss.str().c_str());
 		if(res){
 			this->headers = res;
 		}
@@ -90,7 +92,7 @@ void request::set_headers(const std::map<std::string, std::string>& name_value, 
 	for(auto& n : name){
 		std::stringstream ss;
 		ss << n << ";";
-		auto res = curl_slist_append(this->headers, ss.str().c_str());
+		auto res = curl_slist_append(reinterpret_cast<curl_slist*>(this->headers), ss.str().c_str());
 		if(res){
 			this->headers = res;
 		}
