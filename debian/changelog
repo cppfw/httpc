@@ -1,3 +1,9 @@
+libeasyhttp (0.1.5) unstable; urgency=medium
+
+  * remove dependency on libcurl headers
+
+ -- Ivan Gagis <igagis@gmail.com>  Fri, 26 Jun 2020 12:29:58 +0300
+
 libeasyhttp (0.1.4) unstable; urgency=medium
 
   * add escape(std::string) function
