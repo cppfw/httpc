@@ -40,8 +40,8 @@ struct response{
 class request : public std::enable_shared_from_this<request>{
 	friend class init_guard;
 
-	void* handle; // CURL
-	void* headers = nullptr; // curl_slist
+	void* CURL_handle;
+	void* curl_slist_handle = nullptr;
 
 	volatile bool is_idle = true;
 

@@ -29,8 +29,8 @@ status_code curlcode_to_status(CURLcode code){
 }
 }
 
-void init_guard::handle_completed_request(const void* message){
-	const CURLMsg& m = *reinterpret_cast<const CURLMsg*>(message);
+void init_guard::handle_completed_request(const void* CURLMsg_message){
+	const CURLMsg& m = *reinterpret_cast<const CURLMsg*>(CURLMsg_message);
 	switch(m.msg){
 		case CURLMSG_DONE:
 		{
@@ -44,7 +44,7 @@ void init_guard::handle_completed_request(const void* message){
 			r->resp.status = curlcode_to_status(m.data.result);
 
 			long response_code;
-    		curl_easy_getinfo(r->handle, CURLINFO_RESPONSE_CODE, &response_code);
+    		curl_easy_getinfo(r->CURL_handle, CURLINFO_RESPONSE_CODE, &response_code);
 			r->resp.response_code = http_code(response_code);
 
 			if(r->completed_handler){
@@ -100,8 +100,8 @@ void init_guard::thread_func(){
 
 void init_guard::start_request(std::shared_ptr<request> r){
 	queue.push_back([r](){
-		curl_multi_add_handle(multi_handle, r->handle);
-		handle_to_request_map.insert(std::make_pair(r->handle, std::move(r)));
+		curl_multi_add_handle(multi_handle, r->CURL_handle);
+		handle_to_request_map.insert(std::make_pair(r->CURL_handle, std::move(r)));
 	});
 	curl_multi_wakeup(multi_handle);
 }
@@ -111,12 +111,12 @@ bool init_guard::cancel_request(request& r){
 	nitki::semaphore sema;
 	bool ret;
 	queue.push_back([&r, &sema, &ret](){
-		auto i = handle_to_request_map.find(r.handle);
+		auto i = handle_to_request_map.find(r.CURL_handle);
 		if(i == handle_to_request_map.end()){
 			// TRACE(<< "request is not active" << std::endl)
 			ret = false;
 		}else{
-			curl_multi_remove_handle(multi_handle, r.handle);
+			curl_multi_remove_handle(multi_handle, r.CURL_handle);
 			handle_to_request_map.erase(i);
 			r.is_idle = true;
 			ret = true;

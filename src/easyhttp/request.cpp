@@ -22,18 +22,18 @@ size_t request::write_data(void *buffer, size_t size, size_t nmemb, void *userp)
 }
 
 request::request(decltype(completed_handler)&& ch) :
-		handle(curl_easy_init()),
+		CURL_handle(curl_easy_init()),
 		completed_handler(std::move(ch))
 {
 	// curl_easy_setopt(this->handle, CURLOPT_VERBOSE, 1);
 
-	curl_easy_setopt(this->handle, CURLOPT_WRITEFUNCTION, &write_data);
-	curl_easy_setopt(this->handle, CURLOPT_WRITEDATA, this);
+	curl_easy_setopt(this->CURL_handle, CURLOPT_WRITEFUNCTION, &write_data);
+	curl_easy_setopt(this->CURL_handle, CURLOPT_WRITEDATA, this);
 }
 
 request::~request()noexcept{
 	ASSERT(this->is_idle)
-	curl_easy_cleanup(this->handle);
+	curl_easy_cleanup(this->CURL_handle);
 	this->free_headers();
 }
 
@@ -54,7 +54,7 @@ void request::set_url(const std::string& url){
 	if(!this->is_idle){
 		throw std::logic_error("could not set request URL: request is running");
 	}
-	curl_easy_setopt(this->handle, CURLOPT_URL, url.c_str());
+	curl_easy_setopt(this->CURL_handle, CURLOPT_URL, url.c_str());
 }
 
 void request::set_data_handler(decltype(data_handler)&& handler){
@@ -66,16 +66,16 @@ void request::set_data_handler(decltype(data_handler)&& handler){
 
 void request::free_headers()noexcept{
 	ASSERT(this->is_idle)
-	if(this->headers){
-		curl_slist_free_all(reinterpret_cast<curl_slist*>(this->headers));
+	if(this->curl_slist_handle){
+		curl_slist_free_all(reinterpret_cast<curl_slist*>(this->curl_slist_handle));
 	}
 }
 
 void request::set_headers(const std::map<std::string, std::string>& name_value, utki::span<const std::string> name){
-	curl_easy_setopt(this->handle, CURLOPT_HTTPHEADER, nullptr);
+	curl_easy_setopt(this->CURL_handle, CURLOPT_HTTPHEADER, nullptr);
 	this->free_headers();
 
-	this->headers = nullptr; // curl_slist_append() creates a new curl_slist object when nullptr is passed as firsdt argument
+	this->curl_slist_handle = nullptr; // curl_slist_append() creates a new curl_slist object when nullptr is passed as firsdt argument
 
 	for(auto& nv : name_value){
 		std::stringstream ss;
@@ -83,20 +83,20 @@ void request::set_headers(const std::map<std::string, std::string>& name_value, 
 		if(!nv.second.empty()){
 			ss << " " << nv.second;
 		}
-		auto res = curl_slist_append(reinterpret_cast<curl_slist*>(this->headers), ss.str().c_str());
+		auto res = curl_slist_append(reinterpret_cast<curl_slist*>(this->curl_slist_handle), ss.str().c_str());
 		if(res){
-			this->headers = res;
+			this->curl_slist_handle = res;
 		}
 	}
 
 	for(auto& n : name){
 		std::stringstream ss;
 		ss << n << ";";
-		auto res = curl_slist_append(reinterpret_cast<curl_slist*>(this->headers), ss.str().c_str());
+		auto res = curl_slist_append(reinterpret_cast<curl_slist*>(this->curl_slist_handle), ss.str().c_str());
 		if(res){
-			this->headers = res;
+			this->curl_slist_handle = res;
 		}
 	}
 
-	curl_easy_setopt(this->handle, CURLOPT_HTTPHEADER, this->headers);
+	curl_easy_setopt(this->CURL_handle, CURLOPT_HTTPHEADER, this->curl_slist_handle);
 }
