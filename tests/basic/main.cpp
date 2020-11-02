@@ -56,11 +56,11 @@ int main(int argc, char** argv){
 			completed = true;
 			auto r = req.get_response();
 			TRACE_ALWAYS(<< "HTTP request completed, status = " << unsigned(r.status) << ", code = " << unsigned(r.response_code) << std::endl)
-			ASSERT_ALWAYS(r.status == easyhttp::status_code::ok)
+			ASSERT_INFO_ALWAYS(r.status == easyhttp::status_code::ok, "r.status = " << unsigned(r.status))
 			sema.signal();
 		});
 
-		r->set_url("https://speed.hetzner.de/1GB.bin");
+		r->set_url("http://212.183.159.230/1GB.zip");
 
 		bool sema_signalled = false;
 
