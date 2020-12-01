@@ -1,3 +1,9 @@
+libeasyhttp (0.1.6) unstable; urgency=medium
+
+  * github actions
+
+ -- Ivan Gagis <igagis@gmail.com>  Wed, 02 Dec 2020 01:39:03 +0200
+
 libeasyhttp (0.1.5) unstable; urgency=medium
 
   * remove dependency on libcurl headers
