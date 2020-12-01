@@ -1,7 +1,7 @@
 Name: easyhttp   # human-readable name
 Description: HTTP client C++ library # human-readable description
 Version: $(version)
-URL: https://github.com/igagis/easyhttp
+URL: https://github.com/cppfw/easyhttp
 Requires:
 Conflicts:
 Libs: -leasyhttp
