@@ -60,7 +60,7 @@ int main(int argc, char** argv){
 			sema.signal();
 		});
 
-		r->set_url("http://212.183.159.230/1GB.zip");
+		r->set_url("https://speed.hetzner.de/1GB.bin");
 
 		bool sema_signalled = false;
 
