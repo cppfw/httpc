@@ -8,19 +8,6 @@
 
 int main(int argc, char** argv){
 
-	// test cancelling non-active request
-	{
-		easyhttp::init_guard easyhttp_guard;
-
-		auto r = std::make_shared<easyhttp::request>([](easyhttp::request& r){
-
-		});
-
-		r->set_url("http://izdelie.icu");
-
-		ASSERT_ALWAYS(!r->cancel())
-	}
-
 	// test cancelling active request
 	{
 		easyhttp::init_guard easyhttp_guard;

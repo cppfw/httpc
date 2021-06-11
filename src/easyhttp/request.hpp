@@ -20,6 +20,7 @@ enum class method{
 };
 
 enum class status_code{
+	undefined,
 	ok,
 	network_error,
 	timeout,
