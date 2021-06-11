@@ -5,7 +5,8 @@ Maintainer: Ivan Gagis <igagis@gmail.com>
 Build-Depends: debhelper (>= 9), prorab, prorab-extra, myci, pkg-config,
 		libc6-dev, libgnutls28-dev, zlib1g-dev,
 		libutki-dev,
-		libnitki-dev
+		libnitki-dev,
+		libtst-dev
 Build-Depends-Indep: doxygen
 Standards-Version: 3.9.2
 
