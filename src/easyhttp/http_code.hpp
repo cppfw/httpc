@@ -3,6 +3,7 @@
 namespace easyhttp{
 
 enum class http_code{
+	undefined = 0,
 	continue_ = 100,
 	switching_protocols = 101,
 	processing = 102,

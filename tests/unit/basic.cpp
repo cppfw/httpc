@@ -111,5 +111,49 @@ tst::set set("basic", [](tst::suite& suite){
             tst::check(req_status == easyhttp::status_code::undefined, SL) << "req_status = " << unsigned(req_status);
         }
     );
+
+    suite.add(
+        "set_headers",
+        [](){
+            nitki::semaphore completed;
+
+            std::vector<uint8_t> data;
+
+            auto req_status = easyhttp::status_code::undefined;
+            auto resp_code = easyhttp::http_code::undefined;
+
+            auto r = std::make_shared<easyhttp::request>([&](easyhttp::request& r){
+                req_status = r.get_response().status;
+                resp_code = r.get_response().response_code;
+                data = std::move(r.get_response().body);
+                completed.signal();
+            });
+
+            r->set_url("https://postman-echo.com/headers");
+
+            std::string custom_header_value = "Lorem ipsum dolor sit amet";
+
+            r->set_headers({
+                    {"my-sample-header", custom_header_value},
+                    {"Accept", "application/json"},
+                    {"Content-Type", "application/json"}
+                });
+
+            r->start();
+
+            completed.wait();
+
+            tst::check(req_status == easyhttp::status_code::ok, SL) << "req_status = " << unsigned(req_status);
+            tst::check(resp_code == easyhttp::http_code::ok, SL) << "http_code = " << unsigned(resp_code);
+
+            auto resp_str = utki::make_string(data);
+
+            tst::check_ne(resp_str.find(custom_header_value), std::string::npos, SL)
+                    << "expected string not found in response body: " << resp_str;
+
+            LOG([&](auto&o){o << "body.size() = " << data.size() << std::endl;});
+            LOG([&](auto&o){o << resp_str << std::endl;});
+        }
+    );
 });
 }
