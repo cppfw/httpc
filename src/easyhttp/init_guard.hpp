@@ -6,7 +6,10 @@
 
 namespace easyhttp{
 
-class init_guard : public utki::singleton<init_guard>{
+class init_guard : public utki::intrusive_singleton<init_guard>{
+	friend class utki::intrusive_singleton<init_guard>;
+	static init_guard::T_Instance instance;
+	
 	friend class request;
 	
 	void start_request(std::shared_ptr<request> r);

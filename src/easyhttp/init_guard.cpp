@@ -9,6 +9,8 @@
 
 using namespace easyhttp;
 
+decltype(init_guard::instance) init_guard::instance;
+
 namespace{
 std::thread thread;
 volatile bool quit_flag;

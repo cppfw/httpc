@@ -8,7 +8,7 @@ this_srcs += $(call prorab-src-dir, .)
 
 this_cxxflags += -I$(d)../../curl-7.70.0/include
 
-this_ldlibs += -leasyhttp -lnitki -lutki
+this_ldlibs += -leasyhttp -lnitki -lutki -ltst
 this_ldflags += -L$(d)../../src/out/$(c)
 
 this_no_install := true
