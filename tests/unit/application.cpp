@@ -7,7 +7,7 @@ class application : public tst::application{
     easyhttp::init_guard easyhttp_init_guard;
 public:
     application() :
-            tst::application("unit tests", "unit tests implemented using tst testing framewrok")
+            tst::application(std::string(), std::string())
     {}
 };
 }
