@@ -4,7 +4,7 @@
 
 #include "request.hpp"
 
-namespace easyhttp{
+namespace httpc{
 
 class init_guard : public utki::intrusive_singleton<init_guard>{
 	friend class utki::intrusive_singleton<init_guard>;

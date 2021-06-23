@@ -2,7 +2,7 @@
 
 #include <string>
 
-namespace easyhttp{
+namespace httpc{
 
 std::string escape(const std::string& str);
 

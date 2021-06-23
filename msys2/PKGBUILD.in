@@ -17,7 +17,7 @@ else
 	exit 1
 fi
 
-packageName=easyhttp
+packageName=httpc
 
 pkgname="${pkgPrefix}${packageName}"
 pkgver=$(version)

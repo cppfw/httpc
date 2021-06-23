@@ -1,4 +1,4 @@
-:name: easyhttp
+:name: httpc
 
 = {name}
 

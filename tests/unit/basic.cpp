@@ -7,8 +7,8 @@
 
 #include <thread>
 
-#include "../../src/easyhttp/request.hpp"
-#include "../../src/easyhttp/init_guard.hpp"
+#include "../../src/httpc/request.hpp"
+#include "../../src/httpc/init_guard.hpp"
 
 namespace{
 tst::set set("basic", [](tst::suite& suite){
@@ -19,9 +19,9 @@ tst::set set("basic", [](tst::suite& suite){
 
             std::vector<uint8_t> data;
 
-            easyhttp::status_code req_status = easyhttp::status_code::undefined;
+            httpc::status_code req_status = httpc::status_code::undefined;
 
-            auto r = std::make_shared<easyhttp::request>([&](easyhttp::request& r){
+            auto r = std::make_shared<httpc::request>([&](httpc::request& r){
                 // this callback is run from separate thread, so do not use of tst::check() inside
                 req_status = r.get_response().status;
                 data = std::move(r.get_response().body);
@@ -34,7 +34,7 @@ tst::set set("basic", [](tst::suite& suite){
 
             completed.wait();
 
-            tst::check(req_status == easyhttp::status_code::ok, SL) << "status = " << unsigned(req_status);
+            tst::check(req_status == httpc::status_code::ok, SL) << "status = " << unsigned(req_status);
 
             LOG([&](auto&o){o << "body.size() = " << data.size() << std::endl;});
             LOG([&](auto&o){o << utki::make_string(data) << std::endl;});
@@ -44,7 +44,7 @@ tst::set set("basic", [](tst::suite& suite){
     suite.add(
         "cancel_non_active_request",
         [](){
-            auto r = std::make_shared<easyhttp::request>([](easyhttp::request& r){});
+            auto r = std::make_shared<httpc::request>([](httpc::request& r){});
 
             r->set_url("http://izdelie.icu");
 
@@ -59,9 +59,9 @@ tst::set set("basic", [](tst::suite& suite){
 
             nitki::semaphore sema;
 
-            easyhttp::status_code req_status = easyhttp::status_code::undefined;
+            httpc::status_code req_status = httpc::status_code::undefined;
 
-            auto r = std::make_shared<easyhttp::request>([&](easyhttp::request& req){
+            auto r = std::make_shared<httpc::request>([&](httpc::request& req){
                 completed = true;
                 auto r = req.get_response();
                 LOG([&](auto&o){
@@ -78,7 +78,7 @@ tst::set set("basic", [](tst::suite& suite){
 
             r->set_data_handler([&sema, &sema_signalled](utki::span<const uint8_t> d) -> size_t {
                 LOG([&](auto&o){
-                    o << "first data chunk received, "; << d.size() << " bytes, cancelling the request..." << std::endl;
+                    o << "first data chunk received, " << d.size() << " bytes, cancelling the request..." << std::endl;
                     o << utki::make_string(d) << std::endl;
                 });
                 if(!sema_signalled){
@@ -88,7 +88,7 @@ tst::set set("basic", [](tst::suite& suite){
                 return d.size();
             });
 
-            LOG([](auot&o){o << "running cancel test..." << std::endl;});
+            LOG([](auto&o){o << "running cancel test..." << std::endl;});
             r->start();
 
             sema.wait();
@@ -108,7 +108,7 @@ tst::set set("basic", [](tst::suite& suite){
 
             // since we are cancelling the requet, we expect that request completed handler was not called,
             // so the request status should remain undefined
-            tst::check(req_status == easyhttp::status_code::undefined, SL) << "req_status = " << unsigned(req_status);
+            tst::check(req_status == httpc::status_code::undefined, SL) << "req_status = " << unsigned(req_status);
         }
     );
 
@@ -119,10 +119,10 @@ tst::set set("basic", [](tst::suite& suite){
 
             std::vector<uint8_t> data;
 
-            auto req_status = easyhttp::status_code::undefined;
-            auto resp_code = easyhttp::http_code::undefined;
+            auto req_status = httpc::status_code::undefined;
+            auto resp_code = httpc::http_code::undefined;
 
-            auto r = std::make_shared<easyhttp::request>([&](easyhttp::request& r){
+            auto r = std::make_shared<httpc::request>([&](httpc::request& r){
                 req_status = r.get_response().status;
                 resp_code = r.get_response().response_code;
                 data = std::move(r.get_response().body);
@@ -143,8 +143,8 @@ tst::set set("basic", [](tst::suite& suite){
 
             completed.wait();
 
-            tst::check(req_status == easyhttp::status_code::ok, SL) << "req_status = " << unsigned(req_status);
-            tst::check(resp_code == easyhttp::http_code::ok, SL) << "http_code = " << unsigned(resp_code);
+            tst::check(req_status == httpc::status_code::ok, SL) << "req_status = " << unsigned(req_status);
+            tst::check(resp_code == httpc::http_code::ok, SL) << "http_code = " << unsigned(resp_code);
 
             auto resp_str = utki::make_string(data);
 

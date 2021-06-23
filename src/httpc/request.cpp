@@ -4,7 +4,7 @@
 
 #include <curl/curl.h>
 
-using namespace easyhttp;
+using namespace httpc;
 
 size_t request::write_data(void *buffer, size_t size, size_t nmemb, void *userp){
 	ASSERT(userp)

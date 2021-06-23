@@ -2,7 +2,7 @@ include prorab.mk
 
 $(eval $(call prorab-config, ../config))
 
-this_name := easyhttp
+this_name := httpc
 
 this_soname := $(shell cat $(d)soname.txt)
 

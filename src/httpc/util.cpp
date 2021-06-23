@@ -6,9 +6,9 @@
 
 #include <cstring>
 
-using namespace easyhttp;
+using namespace httpc;
 
-std::string easyhttp::escape(const std::string& str){
+std::string httpc::escape(const std::string& str){
 	auto curl = curl_easy_init();
 	utki::scope_exit curl_scope_exit([curl](){
 		curl_easy_cleanup(curl);

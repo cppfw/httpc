@@ -7,7 +7,7 @@
 #include <nitki/queue.hpp>
 #include <nitki/semaphore.hpp>
 
-using namespace easyhttp;
+using namespace httpc;
 
 decltype(init_guard::instance) init_guard::instance;
 
@@ -89,7 +89,7 @@ void init_guard::thread_func(){
       	CURLMcode rc = curl_multi_poll(multi_handle, nullptr, 0, timeout, nullptr);
  
 		if(rc != CURLM_OK){
-			TRACE_ALWAYS(<< "curl_multi_poll() failed, terminating easyhttp thread" << std::endl)
+			TRACE_ALWAYS(<< "curl_multi_poll() failed, terminating httpcread" << std::endl)
 			break;
     	}
 	}

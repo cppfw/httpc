@@ -1,6 +1,6 @@
 #pragma once
 
-namespace easyhttp{
+namespace httpc{
 
 enum class http_code{
 	undefined = 0,

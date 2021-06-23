@@ -1,7 +1,7 @@
-class Libeasyhttp < Formula
+class Libhttpc < Formula
   desc "C++ cross-platform HTTP client library."
-  homepage "https://github.com/cppfw/easyhttp"
-  url "https://github.com/cppfw/easyhttp/archive/$(version).tar.gz"
+  homepage "https://github.com/cppfw/httpc"
+  url "https://github.com/cppfw/httpc/archive/$(version).tar.gz"
   sha256 "$(sha256)"
 
   depends_on "prorab" => :build

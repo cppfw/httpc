@@ -1,6 +1,6 @@
 include prorab.mk
 include prorab-doxygen.mk
 
-this_name := easyhttp
+this_name := httpc
 
 $(eval $(prorab-build-doxygen))

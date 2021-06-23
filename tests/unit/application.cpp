@@ -1,10 +1,10 @@
 #include <tst/application.hpp>
 
-#include "../../src/easyhttp/init_guard.hpp"
+#include "../../src/httpc/init_guard.hpp"
 
 namespace{
 class application : public tst::application{
-    easyhttp::init_guard easyhttp_init_guard;
+    httpc::init_guard httpc_init_guard;
 public:
     application() :
             tst::application(std::string(), std::string())

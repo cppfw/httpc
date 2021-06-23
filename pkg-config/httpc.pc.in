@@ -1,9 +1,9 @@
-Name: easyhttp   # human-readable name
+Name: httpc   # human-readable name
 Description: HTTP client C++ library # human-readable description
 Version: $(version)
-URL: https://github.com/cppfw/easyhttp
+URL: https://github.com/cppfw/httpc
 Requires:
 Conflicts:
-Libs: -leasyhttp
+Libs: -lhttpc
 Libs.private:
 Cflags:

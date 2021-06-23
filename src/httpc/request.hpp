@@ -9,7 +9,7 @@
 
 #include "http_code.hpp"
 
-namespace easyhttp{
+namespace httpc{
 
 enum class method{
 	get,
