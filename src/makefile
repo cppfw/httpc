@@ -14,9 +14,13 @@ this_libcurl_a := $(abspath $(d)../curl-7.70.0/lib/.libs/libcurl.a)
 
 ifeq ($(os),$(filter $(os),linux macosx))
     this_cxxflags += -I$(d)../curl-7.70.0/include
-    this_ldlibs += $(this_libcurl_a) -lssl -lgnutls -lz
+    this_ldlibs += $(this_libcurl_a) -lgnutls -lz
 else ifeq ($(os),windows)
     this_ldlibs += -lcurl
+endif
+
+ifeq ($(os),linux)
+    this_ldlibs += -lssl
 endif
 
 $(eval $(prorab-build-lib))
