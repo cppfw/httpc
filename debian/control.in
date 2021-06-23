@@ -3,7 +3,10 @@ Section: libs
 Priority: extra
 Maintainer: Ivan Gagis <igagis@gmail.com>
 Build-Depends: debhelper (>= 9), prorab, prorab-extra, myci, pkg-config,
-		libc6-dev, libgnutls28-dev, zlib1g-dev,
+		libc6-dev,
+		libgnutls28-dev,
+		libssl-dev,
+		zlib1g-dev,
 		libutki-dev,
 		libnitki-dev,
 		libtst-dev
