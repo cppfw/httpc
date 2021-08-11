@@ -11,10 +11,10 @@ this_srcs := $(call prorab-src-dir,.)
 
 this_ldlibs += -lnitki
 
-this_libcurl_a := $(abspath $(d)../curl-7.70.0/lib/.libs/libcurl.a)
+this_libcurl_a := $(abspath $(d)../3rd_party/curl-7.70.0/lib/.libs/libcurl.a)
 
 ifeq ($(os),$(filter $(os),linux macosx))
-    this_cxxflags += -I$(d)../curl-7.70.0/include
+    this_cxxflags += -I$(d)../3rd_party/curl-7.70.0/include
     this_ldlibs += $(this_libcurl_a) -lgnutls -lz
 else ifeq ($(os),windows)
     this_ldlibs += -lcurl
@@ -33,8 +33,8 @@ $(prorab_this_name): $(this_libcurl_a)
 
 define this_rules
 $(this_libcurl_a):
-$(.RECIPEPREFIX)$(a)(cd $(d)../curl-7.70.0 && ./configure --with-gnutls --without-libidn2)
-$(.RECIPEPREFIX)$(a)$(MAKE) -C $(d)../curl-7.70.0
+$(.RECIPEPREFIX)$(a)(cd $(d)../3rd_party/curl-7.70.0 && ./configure --with-gnutls --without-libidn2)
+$(.RECIPEPREFIX)$(a)$(MAKE) --directory $(d)../3rd_party/curl-7.70.0
 endef
 $(eval $(this_rules))
 

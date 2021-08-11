@@ -22,7 +22,7 @@ tst::set set("basic", [](tst::suite& suite){
             httpc::status_code req_status = httpc::status_code::undefined;
 
             auto r = std::make_shared<httpc::request>([&](httpc::request& r){
-                // this callback is run from separate thread, so do not use of tst::check() inside
+                // this callback is run from separate thread, so do not use tst::check() inside
                 req_status = r.get_response().status;
                 data = std::move(r.get_response().body);
                 completed.signal();
