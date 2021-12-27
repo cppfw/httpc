@@ -19,6 +19,9 @@ $(eval $(call prorab-depend, $(prorab_this_name), ../../src/out/$(c)/libhttpc$(d
 this_test_cmd := $(prorab_this_name) --jobs=auto --junit-out=junit.xml 
 this_test_deps := $(prorab_this_name)
 this_test_ld_path := ../../src/out/$(c) $(CONAN_LIB_DIRS)
+ifeq ($(os),macosx)
+    this_test_ld_path += /usr/local/opt/curl/lib
+endif
 $(eval $(prorab-test))
 
 $(eval $(call prorab-include, ../../src/makefile))
