@@ -154,7 +154,7 @@ jobs:
     - name: git clone
       uses: myci-actions/checkout@master
     - name: prepare pacman package
-      run: myci-apply-version.sh -v $(myci-deb-version.sh debian/changelog) msys2/PKGBUILD.in
+      run: myci-apply-version.sh --version $(myci-deb-version.sh debian/changelog) msys2/PKGBUILD.in
     - name: build
       # to make makepkg-mingw build only one architecture we need to set the MINGW_INSTALLS
       env: {MINGW_INSTALLS: '${{ matrix.repo }}'}
