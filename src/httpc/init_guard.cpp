@@ -51,7 +51,7 @@ status_code curlcode_to_status(CURLcode code){
 		case CURLE_OK:
 			return status_code::ok;
 		default:
-			TRACE(<< "CURLcode = " << code << std::endl)
+			LOG([&](auto&o){o << "CURLcode = " << code << std::endl;})
 			return status_code::network_error;
 	}
 }
