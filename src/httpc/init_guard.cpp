@@ -81,7 +81,7 @@ void init_guard::handle_completed_request(const void* CURLMsg_message){
 			break;
 		}
 		default:
-			ASSERT_INFO(false, "m.msg = " << m.msg)
+			ASSERT(false, [&](auto&o){o << "m.msg = " << m.msg;})
 			break;
 	}
 }
