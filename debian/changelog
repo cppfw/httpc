@@ -1,3 +1,9 @@
+libhttpc (0.1.13) unstable; urgency=medium
+
+  * build for ubuntu jammy
+
+ -- Ivan Gagis <igagis@gmail.com>  Tue, 21 Feb 2023 22:20:08 +0200
+
 libhttpc (0.1.12) unstable; urgency=medium
 
   * update to latest utki
