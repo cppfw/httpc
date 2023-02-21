@@ -1,3 +1,9 @@
+libhttpc (0.1.12) unstable; urgency=medium
+
+  * update to latest utki
+
+ -- Ivan Gagis <igagis@gmail.com>  Tue, 21 Feb 2023 18:20:41 +0200
+
 libhttpc (0.1.11) unstable; urgency=medium
 
   * debian bullseye
