@@ -25,9 +25,9 @@ jobs:
       - name: add cppfw deb repo
         uses: myci-actions/add-deb-repo@master
         with:
-          repo: deb http://gagis.hopto.org/repo/cppfw/${{ matrix.os }} ${{ matrix.codename }} main
+          repo: deb https://gagis.hopto.org/repo/cppfw/${{ matrix.os }} ${{ matrix.codename }} main
           repo-name: cppfw
-          key-server: http://gagis.hopto.org/repo/cppfw/pubkey.gpg
+          keys-asc: https://gagis.hopto.org/repo/cppfw/pubkey.gpg
           install: myci git
       - name: install ci tools
         run: |
@@ -65,9 +65,9 @@ jobs:
       - name: add cppfw deb repo
         uses: myci-actions/add-deb-repo@master
         with:
-          repo: deb http://gagis.hopto.org/repo/cppfw/${{ matrix.os }} ${{ matrix.codename }} main
+          repo: deb https://gagis.hopto.org/repo/cppfw/${{ matrix.os }} ${{ matrix.codename }} main
           repo-name: cppfw
-          key-server: http://gagis.hopto.org/repo/cppfw/pubkey.gpg
+          keys-asc: https://gagis.hopto.org/repo/cppfw/pubkey.gpg
           install: myci git
       - name: install ci tools
         run: |
@@ -141,17 +141,17 @@ jobs:
       uses: myci-actions/add-pacman-repo@master
       with:
         name: cppfw_msys
-        url: http://gagis.hopto.org/repo/cppfw/msys2/msys
+        url: https://gagis.hopto.org/repo/cppfw/msys2/msys
         shell: 'msys2 {0}'
-        key-server: http://gagis.hopto.org/repo/cppfw/pubkey.gpg
+        keys-asc: https://gagis.hopto.org/repo/cppfw/pubkey.gpg
         install: myci
     - name: add cppfw pacman msys/mingw repo
       uses: myci-actions/add-pacman-repo@master
       with:
         name: cppfw_${{ matrix.repo }}
-        url: http://gagis.hopto.org/repo/cppfw/msys2/${{ matrix.repo }}
+        url: https://gagis.hopto.org/repo/cppfw/msys2/${{ matrix.repo }}
         shell: 'msys2 {0}'
-        key-server: http://gagis.hopto.org/repo/cppfw/pubkey.gpg
+        keys-asc: https://gagis.hopto.org/repo/cppfw/pubkey.gpg
     - name: git clone
       uses: myci-actions/checkout@master
     - name: prepare pacman package
