@@ -69,14 +69,13 @@ void init_guard::handle_completed_request(const void* CURLMsg_message){
 			auto r = std::move(i->second);
 			handle_to_request_map.erase(i);
 			r->is_idle = true;
-			r->resp.status = curlcode_to_status(m.data.result);
 
 			long response_code;
     		curl_easy_getinfo(r->CURL_handle, CURLINFO_RESPONSE_CODE, &response_code);
-			r->resp.response_code = httpmodel::status(response_code);
+			r->resp.status = httpmodel::status(response_code);
 
 			if(r->completed_handler){
-				r->completed_handler(*r);
+				r->completed_handler(curlcode_to_status(m.data.result), *r);
 			}
 			break;
 		}

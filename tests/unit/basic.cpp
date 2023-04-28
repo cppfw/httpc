@@ -22,9 +22,9 @@ tst::set set("basic", [](tst::suite& suite){
 
             httpc::status_code req_status = httpc::status_code::undefined;
 
-            auto r = std::make_shared<httpc::request>([&](httpc::request& r){
+            auto r = std::make_shared<httpc::request>([&](httpc::status_code sc, httpc::request& r){
                 // this callback is run from separate thread, so do not use tst::check() inside
-                req_status = r.get_response().status;
+                req_status = sc;
                 data = std::move(r.get_response().body);
                 completed.signal();
             });
@@ -45,7 +45,7 @@ tst::set set("basic", [](tst::suite& suite){
     suite.add(
         "cancel_non_active_request",
         [](){
-            auto r = std::make_shared<httpc::request>([](httpc::request& r){});
+            auto r = std::make_shared<httpc::request>([](httpc::status_code sc, httpc::request& r){});
 
             r->set_url("http://izdelie.icu");
 
@@ -62,14 +62,14 @@ tst::set set("basic", [](tst::suite& suite){
 
             httpc::status_code req_status = httpc::status_code::undefined;
 
-            auto r = std::make_shared<httpc::request>([&](httpc::request& req){
+            auto r = std::make_shared<httpc::request>([&](httpc::status_code sc, httpc::request& req){
                 completed = true;
                 auto r = req.get_response();
                 LOG([&](auto&o){
-                    o << "HTTP request completed, status = " << unsigned(r.status);
-                    o << ", code = " << unsigned(r.response_code) << std::endl;
+                    o << "HTTP request completed, status = " << unsigned(sc);
+                    o << ", http code = " << unsigned(r.status) << std::endl;
                 });
-                req_status = r.status;
+                req_status = sc;
                 sema.signal();
             });
 
@@ -123,9 +123,9 @@ tst::set set("basic", [](tst::suite& suite){
             auto req_status = httpc::status_code::undefined;
             std::optional<httpmodel::status> resp_code;
 
-            auto r = std::make_shared<httpc::request>([&](httpc::request& r){
-                req_status = r.get_response().status;
-                resp_code = r.get_response().response_code;
+            auto r = std::make_shared<httpc::request>([&](httpc::status_code sc, httpc::request& r){
+                req_status = sc;
+                resp_code = r.get_response().status;
                 data = std::move(r.get_response().body);
                 completed.signal();
             });

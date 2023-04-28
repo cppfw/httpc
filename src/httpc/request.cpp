@@ -39,12 +39,12 @@ size_t request::write_data(void *buffer, size_t size, size_t nmemb, void *userp)
 	auto s = utki::make_span(reinterpret_cast<uint8_t*>(buffer), nmemb);
 
 	if(r->data_handler){
-		return r->data_handler(s);
-	}else{
-		r->resp.body.reserve(r->resp.body.size() + s.size());
-		r->resp.body.insert(r->resp.body.end(), s.begin(), s.end());
-		return s.size();
-	}
+            return r->data_handler(s);
+    }else{
+            r->resp.body.reserve(r->resp.body.size() + s.size());
+            r->resp.body.insert(r->resp.body.end(), s.begin(), s.end());
+            return s.size();
+    }
 }
 
 request::request(decltype(completed_handler)&& ch) :

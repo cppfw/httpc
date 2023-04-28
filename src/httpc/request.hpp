@@ -34,6 +34,7 @@ SOFTWARE.
 #include <utki/span.hpp>
 
 #include <httpmodel/http.hpp>
+#include <httpmodel/response.hpp>
 
 namespace httpc{
 
@@ -46,17 +47,11 @@ enum class method{
 };
 
 enum class status_code{
-	undefined,
+	undefined, // TODO: remove
 	ok,
 	network_error,
 	timeout,
 	authentication_failed
-};
-
-struct response{
-	status_code status;
-	httpmodel::status response_code;
-	std::vector<uint8_t> body;
 };
 
 /**
@@ -72,9 +67,9 @@ class request : public std::enable_shared_from_this<request>{
 
 	volatile bool is_idle = true;
 
-	response resp;
+	httpmodel::response resp;
 
-	std::function<void(request&)> completed_handler;
+	std::function<void(status_code, request&)> completed_handler;
 
 	std::function<size_t(utki::span<const uint8_t>)> data_handler;
 
@@ -88,7 +83,7 @@ public:
 
 	void start();
 
-	const response& get_response()const{
+	const httpmodel::response& get_response()const{
 		return this->resp;
 	}
 
