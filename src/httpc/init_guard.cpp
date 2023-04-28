@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2020-2021 Ivan Gagis
+Copyright (c) 2020-2023 Ivan Gagis
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -73,7 +73,7 @@ void init_guard::handle_completed_request(const void* CURLMsg_message){
 
 			long response_code;
     		curl_easy_getinfo(r->CURL_handle, CURLINFO_RESPONSE_CODE, &response_code);
-			r->resp.response_code = http_code(response_code);
+			r->resp.response_code = httpmodel::status(response_code);
 
 			if(r->completed_handler){
 				r->completed_handler(*r);

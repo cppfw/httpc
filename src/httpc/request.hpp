@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2020-2021 Ivan Gagis
+Copyright (c) 2020-2023 Ivan Gagis
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -33,7 +33,7 @@ SOFTWARE.
 
 #include <utki/span.hpp>
 
-#include "http_code.hpp"
+#include <httpmodel/http.hpp>
 
 namespace httpc{
 
@@ -55,7 +55,7 @@ enum class status_code{
 
 struct response{
 	status_code status;
-	http_code response_code;
+	httpmodel::status response_code;
 	std::vector<uint8_t> body;
 };
 
