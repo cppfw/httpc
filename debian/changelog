@@ -1,3 +1,9 @@
+libhttpc (0.1.14) unstable; urgency=medium
+
+  * use httpmodel
+
+ -- Ivan Gagis <igagis@gmail.com>  Fri, 28 Apr 2023 14:30:56 +0300
+
 libhttpc (0.1.13) unstable; urgency=medium
 
   * build for ubuntu jammy
