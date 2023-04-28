@@ -6,6 +6,7 @@
 #include <nitki/semaphore.hpp>
 
 #include <thread>
+#include <optional>
 
 #include "../../src/httpc/request.hpp"
 #include "../../src/httpc/init_guard.hpp"
