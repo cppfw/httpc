@@ -29,7 +29,12 @@ url="http://github.com/cppfw/${packageName}"
 license=('MIT')
 groups=()
 
-depends=("${pkgPrefix}utki" "${pkgPrefix}nitki" "${pkgPrefix}curl")
+depends=(
+	"${pkgPrefix}utki"
+	"${pkgPrefix}httpmodel"
+	"${pkgPrefix}nitki"
+	"${pkgPrefix}curl"
+)
 
 makedepends=('myci' 'prorab' 'prorab-extra' 'doxygen' "${pkgPrefix}tst")
 checkdepends=('myci')

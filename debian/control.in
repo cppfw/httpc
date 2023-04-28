@@ -9,6 +9,7 @@ Build-Depends: debhelper (>= 9), prorab, prorab-extra, myci, pkg-config,
 		libutki-dev,
 		libnitki-dev,
 		libtst-dev,
+		libhttpmodel-dev,
 		libcurl4-openssl-dev
 Build-Depends-Indep: doxygen
 Standards-Version: 3.9.2
@@ -29,7 +30,9 @@ Description: debugging symbols for libhttpc$(soname) package.
 Package: libhttpc-dev
 Section: libdevel
 Architecture: any
-Depends: libhttpc$(soname) (= ${binary:Version}), libhttpc$(soname)-dbg (= ${binary:Version}), ${misc:Depends}
+Depends:
+		libhttpmodel-dev,
+		libhttpc$(soname) (= ${binary:Version}), libhttpc$(soname)-dbg (= ${binary:Version}), ${misc:Depends}
 Suggests: libhttpc-doc
 Description: cross-platform HTTP client library in C++, development files.
  Development files for libhttpc$(soname).
