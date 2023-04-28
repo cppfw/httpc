@@ -120,7 +120,7 @@ tst::set set("basic", [](tst::suite& suite){
             std::vector<uint8_t> data;
 
             auto req_status = httpc::status_code::undefined;
-            auto resp_code = httpc::http_code::undefined;
+            std::optional<httpc::http_code> resp_code;
 
             auto r = std::make_shared<httpc::request>([&](httpc::request& r){
                 req_status = r.get_response().status;
@@ -144,7 +144,8 @@ tst::set set("basic", [](tst::suite& suite){
             completed.wait();
 
             tst::check(req_status == httpc::status_code::ok, SL) << "req_status = " << unsigned(req_status);
-            tst::check(resp_code == httpc::http_code::ok, SL) << "http_code = " << unsigned(resp_code);
+            tst::check(resp_code.has_value(), SL);
+            tst::check(resp_code.value() == httpc::http_code::ok, SL) << "http_code = " << unsigned(resp_code.value());
 
             auto resp_str = utki::make_string(data);
 
