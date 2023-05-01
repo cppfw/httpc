@@ -38,14 +38,6 @@ SOFTWARE.
 
 namespace httpc{
 
-enum class method{
-	get,
-	post,
-	put,
-	head,
-	delete_
-};
-
 enum class status_code{
 	undefined, // TODO: remove
 	ok,
@@ -94,7 +86,7 @@ public:
 	 */
 	bool cancel()noexcept;
 
-	void set_method(method m);
+	void set_method(httpmodel::method m);
 
 	void set_url(const std::string& url);
 
