@@ -39,7 +39,7 @@ decltype(init_guard::instance) init_guard::instance;
 
 namespace{
 std::thread thread;
-volatile bool quit_flag;
+std::atomic_bool quit_flag;
 nitki::queue queue;
 CURLM *multi_handle = nullptr;
 std::map<CURL*, std::shared_ptr<request>> handle_to_request_map;
@@ -86,7 +86,7 @@ void init_guard::handle_completed_request(const void* CURLMsg_message){
 }
 
 void init_guard::thread_func(){
-	while(!quit_flag){
+	while(!quit_flag.load()){
 		while(auto m = queue.pop_front()){
 			m();
 		}
@@ -166,12 +166,12 @@ init_guard::init_guard(bool init_winsock){
 
 	multi_handle = curl_multi_init();
 
-	quit_flag = false;
+	quit_flag.store(false);
 	thread = std::thread(&thread_func);
 }
 
 init_guard::~init_guard()noexcept{
-	quit_flag = true;
+	quit_flag.store(true);
 	ASSERT(multi_handle)
 	curl_multi_wakeup(multi_handle);
 	thread.join();
