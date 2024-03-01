@@ -73,7 +73,7 @@ tst::set set("basic", [](tst::suite& suite){
                 sema.signal();
             });
 
-            r->set_url("https://speed.hetzner.de/1GB.bin");
+            r->set_url("https://testfile.org/files-5GB");
 
             bool sema_signalled = false;
 
@@ -96,9 +96,9 @@ tst::set set("basic", [](tst::suite& suite){
 
             std::this_thread::sleep_for(std::chrono::milliseconds(50));
 
-            tst::check(!completed, SL);
+            tst::check(!completed, SL) << "req_status = " << unsigned(req_status);
             tst::check(r->cancel(), SL);
-            tst::check(!completed, SL);
+            tst::check(!completed, SL) << "req_status = " << unsigned(req_status);
 
             sema_signalled = false; // allow signalling on data received
 

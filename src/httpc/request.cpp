@@ -55,6 +55,9 @@ request::request(decltype(completed_handler)&& ch) :
 
 	curl_easy_setopt(this->CURL_handle, CURLOPT_WRITEFUNCTION, &write_data);
 	curl_easy_setopt(this->CURL_handle, CURLOPT_WRITEDATA, this);
+
+	// follow 30x redirects
+	curl_easy_setopt(this->CURL_handle, CURLOPT_FOLLOWLOCATION, 1);
 }
 
 request::~request()noexcept{
