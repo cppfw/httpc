@@ -1,3 +1,9 @@
+libhttpc (0.1.18) unstable; urgency=medium
+
+  * fix homebrew packaging
+
+ -- Ivan Gagis <igagis@gmail.com>  Mon, 06 May 2024 15:45:02 +0300
+
 libhttpc (0.1.17) unstable; urgency=medium
 
   * fix macos build
