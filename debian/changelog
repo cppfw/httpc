@@ -1,3 +1,9 @@
+libhttpc (0.1.19) unstable; urgency=medium
+
+  * ubuntu noble build
+
+ -- Ivan Gagis <igagis@gmail.com>  Tue, 19 Nov 2024 23:09:07 +0200
+
 libhttpc (0.1.18) unstable; urgency=medium
 
   * fix homebrew packaging
