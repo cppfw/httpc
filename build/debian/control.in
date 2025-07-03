@@ -1,0 +1,61 @@
+Source: libhttpc
+Section: libs
+Priority: extra
+Maintainer: Ivan Gagis <igagis@gmail.com>
+Build-Depends: debhelper (>= 9), prorab, prorab-extra, myci, pkg-config,
+		libc6-dev,
+		libssl-dev,
+		zlib1g-dev,
+		libutki-dev,
+		libnitki-dev,
+		libtst-dev,
+		libhttpmodel-dev,
+		libcurl4-openssl-dev
+Build-Depends-Indep: doxygen
+Standards-Version: 3.9.2
+
+Package: libhttpc$(soname)
+Section: libs
+Architecture: any
+Depends:
+	${shlibs:Depends},
+	${misc:Depends}
+Description: cross-platform HTTP client library in C++.
+	Cross-platform HTTP/HTTPS client library in C++. Mainly, this is a wrapper above libcurl.
+
+Package: libhttpc-dbg$(soname)
+Section: libs
+Architecture: any
+Depends:
+	${shlibs:Depends},
+	${misc:Depends}
+Description: cross-platform HTTP client library in C++.
+	Debug version of libhttpc.
+
+Package: libhttpc-dev
+Section: libdevel
+Architecture: any
+Depends:
+	libhttpc$(soname) (= ${binary:Version}),
+	libhttpc-dbg$(soname) (= ${binary:Version}),
+	${misc:Depends}
+	libhttpmodel-dev
+Suggests: libhttpc-doc
+Description: cross-platform HTTP client library in C++, development files.
+	Development files for libhttpc$(soname).
+
+Package: libhttpc$(soname)-dbgsrc
+Section: debug
+Architecture: all
+Depends:
+	libhttpc$(soname)-dbgsym (= ${binary:Version}),
+	libhttpc-dbg$(soname)-dbgsym (= ${binary:Version}),
+	${misc:Depends}
+Description: debugging sources for libhttpc$(soname) package.
+
+Package: libhttpc-doc
+Section: doc
+Architecture: all
+Depends: ${misc:Depends}
+Description: documentation for libhttpc-dev package.
+	For more details see description to libhttpc-dev package.

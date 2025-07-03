@@ -26,19 +26,18 @@ SOFTWARE.
 
 #pragma once
 
-#include <memory>
 #include <functional>
-#include <vector>
 #include <map>
-
-#include <utki/span.hpp>
+#include <memory>
+#include <vector>
 
 #include <httpmodel/http.hpp>
 #include <httpmodel/response.hpp>
+#include <utki/span.hpp>
 
-namespace httpc{
+namespace httpc {
 
-enum class status_code{
+enum class status_code {
 	undefined, // TODO: remove
 	ok,
 	network_error,
@@ -51,7 +50,8 @@ enum class status_code{
  * The lifespan of all request objects must be limited by lifespan of init_guard singleton.
  * Otherwise the behavior is undefined.
  */
-class request : public std::enable_shared_from_this<request>{
+class request : public std::enable_shared_from_this<request>
+{
 	friend class init_guard;
 
 	void* CURL_handle;
@@ -65,17 +65,19 @@ class request : public std::enable_shared_from_this<request>{
 
 	std::function<size_t(utki::span<const uint8_t>)> data_handler;
 
-	static size_t write_data(void *buffer, size_t size, size_t nmemb, void *userp);
+	static size_t write_data(void* buffer, size_t size, size_t nmemb, void* userp);
 
-	void free_headers()noexcept;
+	void free_headers() noexcept;
+
 public:
 	request(decltype(completed_handler)&& ch);
 
-	~request()noexcept;
+	~request() noexcept;
 
 	void start();
 
-	const httpmodel::response& get_response()const{
+	const httpmodel::response& get_response() const
+	{
 		return this->resp;
 	}
 
@@ -84,7 +86,7 @@ public:
 	 * @return true if request was cancelled and no completed callback was called.
 	 * @return false in case the request has completed befere cancelling or was not active at all.
 	 */
-	bool cancel()noexcept;
+	bool cancel() noexcept;
 
 	void set_method(httpmodel::method m);
 
@@ -92,7 +94,10 @@ public:
 
 	void set_data_handler(decltype(data_handler)&& handler);
 
-	void set_headers(const std::map<std::string, std::string>& name_value, utki::span<const std::string> name = utki::span<const std::string>());
+	void set_headers(
+		const std::map<std::string, std::string>& name_value,
+		utki::span<const std::string> name = utki::span<const std::string>()
+	);
 };
 
-}
+} // namespace httpc

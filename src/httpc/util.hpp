@@ -28,8 +28,8 @@ SOFTWARE.
 
 #include <string>
 
-namespace httpc{
+namespace httpc {
 
 std::string escape(const std::string& str);
 
-}
+} // namespace httpc
