@@ -122,7 +122,7 @@ void init_guard::thread_func()
 
 		if (rc != CURLM_OK) {
 			utki::log([](auto& o) {
-				o << "curl_multi_poll() failed, terminating httpcread" << std::endl;
+				o << "curl_multi_poll() failed" << std::endl;
 			});
 			break;
 		}
