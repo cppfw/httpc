@@ -1,9 +1,9 @@
-Name: httpc   # human-readable name
+Name: httpclient   # human-readable name
 Description: HTTP client C++ library # human-readable description
 Version: $(version)
-URL: https://github.com/cppfw/httpc
+URL: https://github.com/cppfw/httpclient
 Requires:
 Conflicts:
-Libs: -lhttpc
+Libs: -lhttpclient
 Libs.private:
 Cflags:

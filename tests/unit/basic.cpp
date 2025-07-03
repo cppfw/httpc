@@ -8,8 +8,8 @@
 #include <thread>
 #include <optional>
 
-#include "../../src/httpc/request.hpp"
-#include "../../src/httpc/init_guard.hpp"
+#include "../../src/httpclient/request.hpp"
+#include "../../src/httpclient/init_guard.hpp"
 
 namespace{
 tst::set set("basic", [](tst::suite& suite){
@@ -20,9 +20,9 @@ tst::set set("basic", [](tst::suite& suite){
 
             std::vector<uint8_t> data;
 
-            httpc::status_code req_status = httpc::status_code::undefined;
+            httpclient::status_code req_status = httpclient::status_code::undefined;
 
-            auto r = std::make_shared<httpc::request>([&](httpc::status_code sc, httpc::request& r){
+            auto r = std::make_shared<httpclient::request>([&](httpclient::status_code sc, httpclient::request& r){
                 // this callback is run from separate thread, so do not use tst::check() inside
                 req_status = sc;
                 data = std::move(r.get_response().body);
@@ -35,7 +35,7 @@ tst::set set("basic", [](tst::suite& suite){
 
             completed.wait();
 
-            tst::check(req_status == httpc::status_code::ok, SL) << "status = " << unsigned(req_status);
+            tst::check(req_status == httpclient::status_code::ok, SL) << "status = " << unsigned(req_status);
 
             LOG([&](auto&o){o << "body.size() = " << data.size() << std::endl;});
             LOG([&](auto&o){o << utki::make_string(data) << std::endl;});
@@ -45,7 +45,7 @@ tst::set set("basic", [](tst::suite& suite){
     suite.add(
         "cancel_non_active_request",
         [](){
-            auto r = std::make_shared<httpc::request>([](httpc::status_code sc, httpc::request& r){});
+            auto r = std::make_shared<httpclient::request>([](httpclient::status_code sc, httpclient::request& r){});
 
             r->set_url("http://izdelie.icu");
 
@@ -60,9 +60,9 @@ tst::set set("basic", [](tst::suite& suite){
 
             nitki::semaphore sema;
 
-            httpc::status_code req_status = httpc::status_code::undefined;
+            httpclient::status_code req_status = httpclient::status_code::undefined;
 
-            auto r = std::make_shared<httpc::request>([&](httpc::status_code sc, httpc::request& req){
+            auto r = std::make_shared<httpclient::request>([&](httpclient::status_code sc, httpclient::request& req){
                 completed = true;
                 auto r = req.get_response();
                 LOG([&](auto&o){
@@ -109,7 +109,7 @@ tst::set set("basic", [](tst::suite& suite){
 
             // since we are cancelling the requet, we expect that request completed handler was not called,
             // so the request status should remain undefined
-            tst::check(req_status == httpc::status_code::undefined, SL) << "req_status = " << unsigned(req_status);
+            tst::check(req_status == httpclient::status_code::undefined, SL) << "req_status = " << unsigned(req_status);
         }
     );
 
@@ -120,10 +120,10 @@ tst::set set("basic", [](tst::suite& suite){
 
             std::vector<uint8_t> data;
 
-            auto req_status = httpc::status_code::undefined;
+            auto req_status = httpclient::status_code::undefined;
             std::optional<httpmodel::status> resp_code;
 
-            auto r = std::make_shared<httpc::request>([&](httpc::status_code sc, httpc::request& r){
+            auto r = std::make_shared<httpclient::request>([&](httpclient::status_code sc, httpclient::request& r){
                 req_status = sc;
                 resp_code = r.get_response().status;
                 data = std::move(r.get_response().body);
@@ -144,7 +144,7 @@ tst::set set("basic", [](tst::suite& suite){
 
             completed.wait();
 
-            tst::check(req_status == httpc::status_code::ok, SL) << "req_status = " << unsigned(req_status);
+            tst::check(req_status == httpclient::status_code::ok, SL) << "req_status = " << unsigned(req_status);
             tst::check(resp_code.has_value(), SL);
             tst::check(resp_code.value() == httpmodel::status::http_200_ok, SL) << "http_code = " << unsigned(resp_code.value());
 

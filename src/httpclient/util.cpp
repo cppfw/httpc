@@ -24,30 +24,28 @@ SOFTWARE.
 
 /* ================ LICENSE END ================ */
 
-#pragma once
+#include "util.hpp"
 
-#include <utki/singleton.hpp>
+#include <cstring>
 
-#include "request.hpp"
+#include <curl/curl.h>
+#include <utki/util.hpp>
 
-namespace httpc {
+using namespace httpclient;
 
-class init_guard : public utki::intrusive_singleton<init_guard>
+std::string httpclient::escape(const std::string& str)
 {
-	friend class utki::intrusive_singleton<init_guard>;
-	static init_guard::instance_type instance;
+	auto curl = curl_easy_init();
+	utki::scope_exit curl_scope_exit([curl]() {
+		curl_easy_cleanup(curl);
+	});
 
-	friend class request;
+	auto encoded = curl_easy_escape(curl, str.data(), str.size());
+	utki::scope_exit encoded_scope_exit([encoded]() {
+		curl_free(encoded);
+	});
 
-	void start_request(std::shared_ptr<request> r);
-	bool cancel_request(request& r);
+	std::string ret(encoded, strlen(encoded));
 
-	static void thread_func();
-	static void handle_completed_request(const void* CURLMsg_message);
-
-public:
-	init_guard(bool init_winsock = true);
-	~init_guard() noexcept;
-};
-
-} // namespace httpc
+	return ret;
+}

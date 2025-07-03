@@ -33,7 +33,7 @@ SOFTWARE.
 #include <nitki/queue.hpp>
 #include <nitki/semaphore.hpp>
 
-using namespace httpc;
+using namespace httpclient;
 
 decltype(init_guard::instance) init_guard::instance;
 

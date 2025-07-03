@@ -35,7 +35,7 @@ SOFTWARE.
 #include <httpmodel/response.hpp>
 #include <utki/span.hpp>
 
-namespace httpc {
+namespace httpclient {
 
 enum class status_code {
 	undefined, // TODO: remove
@@ -100,4 +100,4 @@ public:
 	);
 };
 
-} // namespace httpc
+} // namespace httpclient

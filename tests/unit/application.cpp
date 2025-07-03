@@ -1,10 +1,10 @@
 #include <tst/application.hpp>
 
-#include "../../src/httpc/init_guard.hpp"
+#include "../../src/httpclient/init_guard.hpp"
 
 namespace{
 class application : public tst::application{
-    httpc::init_guard httpc_init_guard;
+    httpclient::init_guard httpc_init_guard;
 public:
     application() :
             tst::application(std::string(), std::string())

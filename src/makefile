@@ -5,7 +5,7 @@ include prorab-clang-format.mk
 
 $(eval $(call prorab-config, ../config))
 
-this_src_dir := httpc
+this_src_dir := httpclient
 
 this_name := $(this_src_dir)$(this_dbg)
 

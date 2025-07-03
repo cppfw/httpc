@@ -11,7 +11,7 @@ this_ldlibs += -lnitki
 this_ldlibs += -lutki
 this_ldlibs += -ltst
 
-this_ldlibs += ../../src/out/$(c)/libhttpc$(this_dbg)$(dot_so)
+this_ldlibs += ../../src/out/$(c)/libhttpclient$(this_dbg)$(dot_so)
 
 this_no_install := true
 
