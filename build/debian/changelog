@@ -1,3 +1,9 @@
+libhttpclient (0.1.22) unstable; urgency=medium
+
+  * fix build
+
+ -- Ivan Gagis <igagis@gmail.com>  Thu, 03 Jul 2025 16:12:09 +0300
+
 libhttpclient (0.1.21) unstable; urgency=medium
 
   * debian: fix deployment
