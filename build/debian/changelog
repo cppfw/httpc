@@ -1,3 +1,9 @@
+libhttpc (0.1.20) unstable; urgency=medium
+
+  * rename to httpclient
+
+ -- Ivan Gagis <igagis@gmail.com>  Thu, 03 Jul 2025 15:34:26 +0300
+
 libhttpc (0.1.19) unstable; urgency=medium
 
   * ubuntu noble build
